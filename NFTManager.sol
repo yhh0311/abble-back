@@ -139,6 +139,7 @@ contract NFTManager {
 }
 
 
+/* (수정) Market 부분만 사용 (위에 부분은 KIP17Token으로 대체) */
 contract NFTMarket {
     mapping(uint256 => address) public seller;
 
@@ -149,10 +150,8 @@ contract NFTMarket {
     {
         address payable receiver = address(uint160(seller[tokenId]));
 
-        // Send 0.01 klay to Seller
-        receiver.transfer(10**16);
+        receiver.transfer(10**16);  // (수정) 구매금액 정해지면 대체
 
-        // Send NFT if properly send klay
         NFTManager(NFT).safeTransferFrom(
             address(this),
             msg.sender,
@@ -163,17 +162,15 @@ contract NFTMarket {
         return true;
     }
 
-    // Called when SafeTransferFrom called from NFT Contract
+    /* (수정) SafeTransferFrom에서 호출 */
     function onKIP17Received(
         address operator,
         address from,
         uint256 tokenId,
         bytes memory data
     ) public returns (bytes4) {
-        // Set token seller, who was a token owner
         seller[tokenId] = from;
 
-        // return signature which means this contract implemented interface for ERC721
         return
             bytes4(keccak256("onKIP17Received(address,address,uint256,bytes)"));
     }

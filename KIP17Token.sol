@@ -1363,7 +1363,7 @@ contract KIP17MetadataMintable is KIP13, KIP17, KIP17Metadata, MinterRole {
         return true;
     }
 
-    /* 수정 */
+    /* (수정) tokenPosX, tokenPosY 파라메터 추가 */
     function mintWithPositionAndURI(
         address to,
         uint256 tokenId,
